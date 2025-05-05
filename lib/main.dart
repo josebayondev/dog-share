@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:dog_share/config/theme/app_theme.dart';
 import 'package:dog_share/provider/theme_provider.dart';
 import 'package:dog_share/config/router/app_router.dart';
@@ -19,12 +18,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = AppTheme(selectedColorIndex: 1).themeData();
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return MaterialApp.router(
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
-      theme: AppTheme(selectedColorIndex: 1).themeData(),
+      theme: theme,
       darkTheme: ThemeData.dark(),
       themeMode: themeProvider.themeMode,
     );
