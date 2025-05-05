@@ -1,9 +1,17 @@
-import 'package:dog_share/config/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:dog_share/config/theme/app_theme.dart';
+import 'package:dog_share/provider/theme_provider.dart';
 import 'package:dog_share/config/router/app_router.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => ThemeProvider(),
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
@@ -11,11 +19,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //El routerConfig es el objeto de la clase AppRouter que se encarga de gestionar las rutas de la aplicacion
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return MaterialApp.router(
       routerConfig: appRouter,
-      // El tema apunta a la clase AppTheme y se selecciona el color con el indice 1 y se accede a la funcion themeData para que devuelva el tema
+      debugShowCheckedModeBanner: false,
       theme: AppTheme(selectedColorIndex: 1).themeData(),
-      );
+      darkTheme: ThemeData.dark(),
+      themeMode: themeProvider.themeMode,
+    );
   }
 }

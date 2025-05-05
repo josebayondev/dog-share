@@ -9,5 +9,17 @@ final appRouter = GoRouter(
       name: HomeScreen.name,
       builder: (context, state) => HomeScreen(),
     ),
+    GoRoute(
+      // La ruta inicial de la aplicación
+      path: '/login',
+      name: LoginScreen.name,
+      builder: (context, state) => LoginScreen(),
+    ),
+    GoRoute(
+      // La ruta inicial de la aplicación
+      path: '/register',
+      name: RegisterScreen.name,
+      builder: (context, state) => RegisterScreen(),
+    ),
       ],
 );
