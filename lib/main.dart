@@ -15,7 +15,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: appRouter,
       // El tema apunta a la clase AppTheme y se selecciona el color con el indice 1 y se accede a la funcion themeData para que devuelva el tema
-      theme: AppTheme(selectedColorIndex: 2).themeData(),
+      theme: AppTheme(selectedColorIndex: 1).themeData(),
       );
   }
 }
