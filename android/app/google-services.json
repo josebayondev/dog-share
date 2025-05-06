@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "763672948367",
+    "project_id": "dogshare-e34a2",
+    "storage_bucket": "dogshare-e34a2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763672948367:android:eef022f0d22b884c6e4afa",
+        "android_client_info": {
+          "package_name": "com.example.dog_share"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4muCS0wao_JTD6FXtUSH7mX5VnYtHIVQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

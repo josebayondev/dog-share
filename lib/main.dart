@@ -5,8 +5,16 @@ import 'package:dog_share/config/theme/app_theme.dart';
 import 'package:dog_share/provider/theme_provider.dart';
 import 'package:dog_share/config/router/app_router.dart';
 
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
+    
     // MultiProvider es un widget que permite proporcionar varios proveedores a la aplicación
     MultiProvider(
       providers: [

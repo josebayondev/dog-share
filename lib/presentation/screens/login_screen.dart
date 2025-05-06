@@ -2,7 +2,6 @@ import 'package:dog_share/presentation/screens_export.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' show Provider;
 import '../../provider/theme_provider.dart' show ThemeProvider;
-import '../../provider/auth_provider.dart';
 
 class LoginScreen extends StatefulWidget {
 
@@ -34,12 +33,21 @@ class _LoginScreenState extends State<LoginScreen> {
     final success = await authProvider.login(email, password);
 
     if (success) {
-      Navigator.pushReplacementNamed(context, HomeScreen.name);
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const RegisterScreen(),
+          ),
+        );
+      }
     } else {
-      final errorMessage = authProvider.errorMessage ?? 'Login failed';
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage)),
-      );
+      final errorMessage = authProvider.errorMessage;
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage)),
+        );
+      }
     }
   }
 

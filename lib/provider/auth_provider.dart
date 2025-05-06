@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthProvider extends ChangeNotifier {
-  // Variables privadas para almacenar el estado de la autenticación
+  
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
   String _email = '';
   String _password = '';
   String _errorMessage = '';
 
-  // Getters para acceder a los valores privados y poder hacerlos públicos pero sin permitir la modificación
   String get email => _email;
   String get password => _password;
-  bool get isLoggedIn => _email.isNotEmpty && _password.isNotEmpty;
+  bool get isLoggedIn => _auth.currentUser != null;
   String get errorMessage => _errorMessage;
 
-  // Metodo para iniciar sesión
   Future<bool> login(String email, String password) async {
     if (email.isEmpty) {
       _errorMessage = 'El email no puede estar vacío';
@@ -32,26 +33,38 @@ class AuthProvider extends ChangeNotifier {
       return false;
     }
 
-    // Simulamos una petición de login
-    await Future.delayed(const Duration(seconds: 2));
-    _errorMessage = '';
-
-    // En un caso real, aquí llamarías a una API o Firebase
-    if (email == "test@email.com" && password == "123456") {
+    try {
+      // Intentar iniciar sesión con Firebase
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
       _email = email;
       _password = password;
-       notifyListeners();
+      _errorMessage = '';
+      notifyListeners();
       return true;
+    } on FirebaseAuthException catch (e) {
+      _errorMessage = _firebaseErrorToMessage(e);
+      notifyListeners();
+      return false;
     }
-
-    _errorMessage = 'Email o contraseña incorrectos';
-    notifyListeners();
-    return false;
   }
-  
-  void logout() {
+
+  void logout() async {
+    await _auth.signOut();
     _email = '';
     _password = '';
     notifyListeners();
+  }
+
+  String _firebaseErrorToMessage(FirebaseAuthException e) {
+    switch (e.code) {
+      case 'user-not-found':
+        return 'No existe una cuenta con ese email';
+      case 'wrong-password':
+        return 'Contraseña incorrecta';
+      case 'invalid-email':
+        return 'Email no válido';
+      default:
+        return 'Error de autenticación: ${e.message}';
+    }
   }
 }
