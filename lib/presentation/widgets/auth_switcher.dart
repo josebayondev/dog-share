@@ -25,7 +25,7 @@ class AuthSwitcherState extends State<AuthSwitcher> {
             setState(() {
               selectedIndex = index;
             });
-
+            // Navegar a la pantalla de login o registro dependiendo del índice seleccionado
             if (index == 0) {
               context.push('/login');
             } else {
@@ -36,7 +36,7 @@ class AuthSwitcherState extends State<AuthSwitcher> {
           selectedColor: Colors.white,
           fillColor: color,
           color: color,
-          constraints: const BoxConstraints(minHeight: 40, minWidth: 100),
+          constraints: const BoxConstraints(minHeight: 40, minWidth: 100), //Establece el tamaño mínimo de los botones
           children: const [
             Text('Login'),
             Text('Register'),

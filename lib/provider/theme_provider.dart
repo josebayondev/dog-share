@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+
+// Esta clase se encarga de manejar el tema de la aplicación
 class ThemeProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.light;
 

@@ -6,8 +6,14 @@ import 'package:dog_share/config/router/app_router.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ThemeProvider(),
+    // MultiProvider es un widget que permite proporcionar varios proveedores a la aplicación
+    MultiProvider(
+      providers: [
+        // ChangeNotifierProvider es un widget que permite proporcionar un ChangeNotifier a la aplicación
+        ChangeNotifierProvider(
+          create: (_) => ThemeProvider(),
+        ),
+      ],
       child: const MainApp(),
     ),
   );

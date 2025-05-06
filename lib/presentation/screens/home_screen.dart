@@ -29,13 +29,14 @@ class HomeScreen extends StatelessWidget  {
 
 /// Widget que representa la barra de navegación superior
 class _AppBarView extends StatelessWidget implements PreferredSizeWidget {
+
+  final Color color;
+  final ThemeProvider themeProvider; // Para poder cambiar el tema de la aplicación de claro a oscuro
+
   const _AppBarView({
     required this.color,
     required this.themeProvider,
   });
-
-  final Color color;
-  final ThemeProvider themeProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -54,14 +55,14 @@ class _AppBarView extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         IconButton(
-          icon: Icon(themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode),
+          icon: Icon(themeProvider.isDarkMode ? Icons.light_mode : Icons.dark_mode), // Cambia el icono dependiendo del modo oscuro o claro
           onPressed: () => themeProvider.toggleTheme(),
         ),
       ],
     );
   }
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight); // Altura de la barra de navegación. Si no se especifica, no puedo dar parametros a la barra de navegación
 }
 
 /// Widget que representa la imagen de fondo
@@ -72,7 +73,7 @@ class _ImageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Transform.translate(
       offset: const Offset(0, -60), // mueve hacia arriba 30px
-      child: ClipRRect(
+      child: ClipRRect( // Recorta la imagen para que tenga bordes redondeados
         borderRadius: BorderRadius.circular(20,), // opcional, para bordes redondeados
         child: Image.asset(
           'assets/images/2.png',

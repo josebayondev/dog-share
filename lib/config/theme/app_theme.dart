@@ -25,7 +25,9 @@ class AppTheme {
   final int selectedColorIndex;
 
   // Constructor de la clase
-  AppTheme({this.selectedColorIndex = 0});
+  const AppTheme({
+    this.selectedColorIndex = 0
+    });
 
   // Metodo que devuelve el tema de la aplicacion
   ThemeData themeData() => ThemeData(
