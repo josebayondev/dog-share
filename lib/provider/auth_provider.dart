@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthProvider extends ChangeNotifier {
-  
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance; // Instancia de FirebaseAuth
 
   String _email = '';
   String _password = '';
@@ -11,7 +11,7 @@ class AuthProvider extends ChangeNotifier {
 
   String get email => _email;
   String get password => _password;
-  bool get isLoggedIn => _auth.currentUser != null;
+  bool get isLoggedIn =>_auth.currentUser != null; // Verifica si el usuario está autenticado
   String get errorMessage => _errorMessage;
 
   Future<bool> login(String email, String password) async {
@@ -23,6 +23,12 @@ class AuthProvider extends ChangeNotifier {
 
     if (!RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$").hasMatch(email)) {
       _errorMessage = 'Formato de email no válido';
+      notifyListeners();
+      return false;
+    }
+
+    if (password.isEmpty) {
+      _errorMessage = 'La contraseña no puede estar vacía';
       notifyListeners();
       return false;
     }
@@ -40,19 +46,27 @@ class AuthProvider extends ChangeNotifier {
       _password = password;
       _errorMessage = '';
       notifyListeners();
+
       return true;
-    } on FirebaseAuthException catch (e) {
+
+    } on FirebaseAuthException catch (e) { // Captura de excepciones de Firebase
       _errorMessage = _firebaseErrorToMessage(e);
       notifyListeners();
       return false;
     }
   }
 
+  // Metodo para cerrar sesión
   void logout() async {
+    try {
     await _auth.signOut();
     _email = '';
     _password = '';
     notifyListeners();
+    } catch (e) {
+      _errorMessage = 'Error al cerrar sesión: $e';
+      notifyListeners();
+    }
   }
 
   String _firebaseErrorToMessage(FirebaseAuthException e) {

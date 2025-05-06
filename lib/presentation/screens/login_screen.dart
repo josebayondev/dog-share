@@ -15,9 +15,12 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
+  // Controladores para los campos de texto de email y contraseña
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  // Gracias al dispose() se liberan los recursos utilizados por los controladores
+  // Esto es importante para evitar fugas de memoria
   @override
   void dispose() {
     _emailController.dispose();
@@ -25,22 +28,25 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+
+  // Método para iniciar sesión 
+  // Este método se llama cuando el usuario presiona el botón de inicio de sesión
   void login() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
 
-    final success = await authProvider.login(email, password);
+    // Con esta variable, llamo al metodo login() del provider
+    final loginProvider = await authProvider.login(email, password);
 
-    if (success) {
-      if (mounted) {
+    if (loginProvider == true) {
         Navigator.push(
+          // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(
             builder: (context) => const RegisterScreen(),
           ),
         );
-      }
     } else {
       final errorMessage = authProvider.errorMessage;
       if (mounted) {
@@ -60,31 +66,38 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBarView(color: color, themeProvider: themeProvider),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Login Screen'),
-            _TextFormField(
-              controller: _emailController,
-              icon: Icons.email,
-              labelText: 'Email',
-              hintText: 'Enter your email',
-              obscureText: false,),
-            _TextFormField(
-              controller: _passwordController,
-              icon: Icons.lock,
-              labelText: 'Password',
-              hintText: 'Enter your password',
-              obscureText: true,),
-
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                login();
-              },
-              child: const Text('Login'),
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Login Screen'),
+              _TextFormField(
+                controller: _emailController,
+                icon: Icons.email,
+                labelText: 'Email',
+                hintText: 'Enter your email',
+                obscureText: false,
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.emailAddress,),
+          
+              _TextFormField(
+                controller: _passwordController,
+                icon: Icons.lock,
+                labelText: 'Password',
+                hintText: 'Enter your password',
+                obscureText: true,
+                textInputAction: TextInputAction.done,
+                keyboardType: TextInputType.visiblePassword,),
+          
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  login();
+                },
+                child: const Text('Login'),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -98,13 +111,17 @@ class _TextFormField extends StatelessWidget {
   final String? labelText;
   final String? hintText;
   final bool? obscureText;
+  final TextInputAction? textInputAction;
+  final TextInputType? keyboardType;
 
   const _TextFormField({ 
   required this.controller,
   this.icon,
   this.labelText,
   this.hintText,
-  this.obscureText
+  this.obscureText,
+  this.textInputAction,
+  this.keyboardType
   });
   
   @override
@@ -112,6 +129,8 @@ class _TextFormField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       obscureText: obscureText ?? false,
+      textInputAction: textInputAction,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,

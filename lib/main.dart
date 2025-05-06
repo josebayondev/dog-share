@@ -9,12 +9,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
+  // Esto es necesario para que Firebase funcione correctamente en Flutter
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    
     // MultiProvider es un widget que permite proporcionar varios proveedores a la aplicación
     MultiProvider(
       providers: [
