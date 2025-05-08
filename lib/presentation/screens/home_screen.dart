@@ -1,4 +1,3 @@
-import 'package:dog_share/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -41,7 +40,7 @@ class _ImageView extends StatelessWidget {
           ClipRRect( // Recorta la imagen para que tenga bordes redondeados
             borderRadius: BorderRadius.circular(20,), // opcional, para bordes redondeados
             child: Image.asset(
-              'assets/images/2.png',
+              'assets/images/1.png',
               width: 600,
               height: 550,
               fit:BoxFit.cover, // Ajusta la imagen recortando los bordes si es necesario

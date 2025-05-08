@@ -1,10 +1,13 @@
-import 'package:dog_share/presentation/screens_export.dart';
-import 'package:firebase_auth/firebase_auth.dart' as FirebaseAuthProvider;
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart' show Provider;
-import '../../provider/theme_provider.dart' show ThemeProvider;
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import '../../presentation/screens_export.dart';
+
+
+
 
 class LoginScreen extends StatefulWidget {
+  // Nombre de la ruta para la pantalla de inicio de sesión
   static const String name = 'login_screen';
 
   const LoginScreen({super.key});
@@ -14,6 +17,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
   // Controladores para los campos de texto de email y contraseña
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -30,6 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
   // Método para iniciar sesión
   // Este método se llama cuando el usuario presiona el botón de inicio de sesión
   void login() async {
+
+    // Verifica si el formulario es válido
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
@@ -38,59 +44,20 @@ class _LoginScreenState extends State<LoginScreen> {
     final loginProvider = await authProvider.login(email, password);
 
     if (loginProvider == true) {
-      Navigator.push(
-        // ignore: use_build_context_synchronously
-        context,
-        MaterialPageRoute(builder: (context) => const RegisterScreen()),
-      );
+      // Si el inicio de sesión es exitoso, navega a la pantalla de inicio
     } else {
+      //Error 
       final errorMessage = authProvider.errorMessage;
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(errorMessage)));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMessage)));
       }
-    }
-  }
-
-  // Método para enviar un correo de restablecimiento de contraseña
-  void sendPasswordResetEmail() async {
-    final email = _emailController.text.trim();
-
-    if (email.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Por favor ingresa tu correo electrónico."),
-        ),
-      );
-      return;
-    }
-
-    try {
-      await FirebaseAuthProvider.FirebaseAuth.instance.sendPasswordResetEmail(
-        email: email,
-      );
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            "Te hemos enviado un correo para restablecer la contraseña.",
-          ),
-        ),
-      );
-    } on FirebaseAuthProvider.FirebaseAuthException catch (e) {
-      String errorMessage = "Error desconocido";
-      if (e.code == 'user-not-found') {
-        errorMessage = "No se encontró un usuario con este correo.";
-      }
-
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(errorMessage)));
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    
     final Color color = Theme.of(context).colorScheme.primary;
     final themeProvider = Provider.of<ThemeProvider>(context);
 
@@ -103,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
             left: 0,
             right: 0,
             child: Image.asset(
-              'assets/images/3.png',
+              'assets/images/2.png',
               fit: BoxFit.cover,
               height: 250,
             ),
@@ -125,6 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: color,
                       ),
                     ),
+                    const SizedBox(height: 30),
                     _TextFormField(
                       controller: _emailController,
                       icon: Icons.email,
@@ -171,7 +139,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 10),
                     TextButton(
-                      onPressed: sendPasswordResetEmail,
+                      onPressed: () {
+                        // Aquí puedes agregar la lógica para recuperar la contraseña
+                        // Por ejemplo, enviar un correo electrónico de recuperación
+                      },
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.blue,
                         textStyle: const TextStyle(
@@ -187,12 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const RegisterScreen(),
-                          ),
-                        );
+                        context.go('/register');
                       },
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.blue,
