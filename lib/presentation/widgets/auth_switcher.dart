@@ -27,9 +27,9 @@ class AuthSwitcherState extends State<AuthSwitcher> {
             });
             // Navegar a la pantalla de login o registro dependiendo del índice seleccionado
             if (index == 0) {
-              context.push('/login');
+              context.go('/login'); // Con .go no permite volver a la pantalla anterior
             } else {
-              context.push('/register');
+              context.go('/register');
             }
           },
           borderRadius: BorderRadius.circular(12),
@@ -38,8 +38,8 @@ class AuthSwitcherState extends State<AuthSwitcher> {
           color: color,
           constraints: const BoxConstraints(minHeight: 40, minWidth: 100), //Establece el tamaño mínimo de los botones
           children: const [
-            Text('Login'),
-            Text('Register'),
+            Text('Login', style: TextStyle(fontSize: 18, fontWeight:FontWeight.bold)),
+            Text('Register', style: TextStyle(fontSize: 18, fontWeight:FontWeight.bold)),
           ],
         ),
         const SizedBox(height: 20),

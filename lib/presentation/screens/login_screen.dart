@@ -1,10 +1,10 @@
 import 'package:dog_share/presentation/screens_export.dart';
+import 'package:firebase_auth/firebase_auth.dart' as FirebaseAuthProvider;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' show Provider;
 import '../../provider/theme_provider.dart' show ThemeProvider;
 
 class LoginScreen extends StatefulWidget {
-
   static const String name = 'login_screen';
 
   const LoginScreen({super.key});
@@ -14,7 +14,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   // Controladores para los campos de texto de email y contraseña
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -28,8 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-
-  // Método para iniciar sesión 
+  // Método para iniciar sesión
   // Este método se llama cuando el usuario presiona el botón de inicio de sesión
   void login() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
@@ -40,72 +38,187 @@ class _LoginScreenState extends State<LoginScreen> {
     final loginProvider = await authProvider.login(email, password);
 
     if (loginProvider == true) {
-        Navigator.push(
-          // ignore: use_build_context_synchronously
-          context,
-          MaterialPageRoute(
-            builder: (context) => const RegisterScreen(),
-          ),
-        );
+      Navigator.push(
+        // ignore: use_build_context_synchronously
+        context,
+        MaterialPageRoute(builder: (context) => const RegisterScreen()),
+      );
     } else {
       final errorMessage = authProvider.errorMessage;
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMessage)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(errorMessage)));
       }
+    }
+  }
+
+  // Método para enviar un correo de restablecimiento de contraseña
+  void sendPasswordResetEmail() async {
+    final email = _emailController.text.trim();
+
+    if (email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Por favor ingresa tu correo electrónico."),
+        ),
+      );
+      return;
+    }
+
+    try {
+      await FirebaseAuthProvider.FirebaseAuth.instance.sendPasswordResetEmail(
+        email: email,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            "Te hemos enviado un correo para restablecer la contraseña.",
+          ),
+        ),
+      );
+    } on FirebaseAuthProvider.FirebaseAuthException catch (e) {
+      String errorMessage = "Error desconocido";
+      if (e.code == 'user-not-found') {
+        errorMessage = "No se encontró un usuario con este correo.";
+      }
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(errorMessage)));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
     final Color color = Theme.of(context).colorScheme.primary;
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
       appBar: AppBarView(color: color, themeProvider: themeProvider),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Login Screen'),
-              _TextFormField(
-                controller: _emailController,
-                icon: Icons.email,
-                labelText: 'Email',
-                hintText: 'Enter your email',
-                obscureText: false,
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.emailAddress,),
-          
-              _TextFormField(
-                controller: _passwordController,
-                icon: Icons.lock,
-                labelText: 'Password',
-                hintText: 'Enter your password',
-                obscureText: true,
-                textInputAction: TextInputAction.done,
-                keyboardType: TextInputType.visiblePassword,),
-          
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  login();
-                },
-                child: const Text('Login'),
-              ),
-            ],
+      body: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Image.asset(
+              'assets/images/3.png',
+              fit: BoxFit.cover,
+              height: 250,
+            ),
           ),
-        ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(24, 260, 24, 40),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Inicia sesión',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: color,
+                      ),
+                    ),
+                    _TextFormField(
+                      controller: _emailController,
+                      icon: Icons.email,
+                      labelText: 'Correo electrónico',
+                      hintText: 'Introduce tu correo electrónico',
+                      obscureText: false,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    _TextFormField(
+                      controller: _passwordController,
+                      icon: Icons.lock,
+                      labelText: 'Password',
+                      hintText: 'Enter your password',
+                      obscureText: true,
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.visiblePassword,
+                    ),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      width: 200,
+                      child: FilledButton(
+                        onPressed: login,
+                        style: FilledButton.styleFrom(
+                          backgroundColor: color, // mismo color que los toggle
+                          foregroundColor: Colors.white, // color del texto
+                          minimumSize: const Size(100, 40), // tamaño mínimo
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 12,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextButton(
+                      onPressed: sendPasswordResetEmail,
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.blue,
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text('¿Olvidaste tu contraseña?'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const RegisterScreen(),
+                          ),
+                        );
+                      },
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.blue,
+                        textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text('¿No tienes cuenta? Regístrate'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
 class _TextFormField extends StatelessWidget {
-
   final TextEditingController controller;
   final IconData? icon;
   final String? labelText;
@@ -114,27 +227,62 @@ class _TextFormField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final TextInputType? keyboardType;
 
-  const _TextFormField({ 
-  required this.controller,
-  this.icon,
-  this.labelText,
-  this.hintText,
-  this.obscureText,
-  this.textInputAction,
-  this.keyboardType
+  const _TextFormField({
+    required this.controller,
+    this.icon,
+    this.labelText,
+    this.hintText,
+    this.obscureText,
+    this.textInputAction,
+    this.keyboardType,
   });
-  
+
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      obscureText: obscureText ?? false,
-      textInputAction: textInputAction,
-      keyboardType: keyboardType,
-      decoration: InputDecoration(
-        labelText: labelText,
-        hintText: hintText,
-        icon: icon != null ? Icon(icon) : null,
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      child: TextFormField(
+        controller: controller,
+        obscureText: obscureText ?? false,
+        textInputAction: textInputAction,
+        keyboardType: keyboardType,
+        style: TextStyle(fontSize: 16, color: theme.colorScheme.onSurface),
+        decoration: InputDecoration(
+          prefixIcon:
+              icon != null ? Icon(icon, color: theme.primaryColor) : null,
+          labelText: labelText,
+          hintText: hintText,
+          filled: true,
+          fillColor:
+              isDark
+                  ? Colors.grey.withOpacity(0.1)
+                  : Colors.grey.withOpacity(0.05),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 18,
+          ),
+          labelStyle: TextStyle(
+            color: isDark ? Colors.grey[300] : Colors.grey[600],
+          ),
+          hintStyle: TextStyle(
+            color: isDark ? Colors.grey[400] : Colors.grey[500],
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide.none,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide(color: theme.dividerColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide(color: theme.primaryColor, width: 1.5),
+          ),
+        ),
       ),
     );
   }
