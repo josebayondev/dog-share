@@ -33,6 +33,9 @@ class _ImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final Color color = Theme.of(context).colorScheme.primary;
+
     return Transform.translate(
       offset: const Offset(0, -60), // mueve hacia arriba 30px
       child: Column(
@@ -54,7 +57,7 @@ class _ImageView extends StatelessWidget {
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
+                color: color
               ),
             ),
           ),

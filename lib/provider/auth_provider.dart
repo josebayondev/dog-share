@@ -4,25 +4,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthProvider extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance; // Instancia de FirebaseAuth
-  final FirebaseFirestore _firestore =
-      FirebaseFirestore.instance; // Instancia de FirebaseAuth
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance; // Instancia de FirebaseAuth
 
   String _email = '';
   String _errorMessage = '';
 
   static const String _emailRegex = r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
-  static const String _passwordRegex =
-      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$';
+  static const String _passwordRegex = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$';
 
   String get email => _email;
-  bool get isLoggedIn =>
-      _auth.currentUser != null; // Verifica si el usuario está autenticado
+  bool get isLoggedIn =>_auth.currentUser != null; // Verifica si el usuario está autenticado
   String get errorMessage => _errorMessage;
   User? get currentUser => _auth.currentUser;
 
 
   // Método para autenticar al usuario
   Future<bool> login(String email, String password) async {
+
     _errorMessage = ''; // Reinicia el mensaje de error
 
     if (email.isEmpty) {
@@ -77,6 +75,7 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  // Método para obtener el mensaje de error de Firebase
   String _firebaseErrorToMessage(FirebaseAuthException e) {
     switch (e.code) {
       case 'user-not-found':
@@ -90,7 +89,9 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  // Método para registrar un nuevo usuario
   Future<bool> register(String email, String password, String alias) async {
+    
     _errorMessage = ''; // Reinicia el mensaje de error
 
     if (alias.isEmpty) {

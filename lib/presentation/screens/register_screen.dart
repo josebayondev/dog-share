@@ -30,9 +30,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   // Método para iniciar sesión
-  // Este método se llama cuando el usuario presiona el botón de inicio de sesión
+  // Este método se llama cuando el usuario presiona el botón de registrar 
   void register() async {
-    // Verifica si el formulario es válido
+    
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final alias = _aliasController.text.trim();
     final email = _emailController.text.trim();
@@ -58,6 +58,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     final Color color = Theme.of(context).colorScheme.primary;
     final themeProvider = Provider.of<ThemeProvider>(context);
 
@@ -147,7 +148,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     const SizedBox(height: 10),
-
                     TextButton(
                       onPressed: () {
                         context.go('/login');
