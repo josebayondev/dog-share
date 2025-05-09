@@ -1,68 +1,136 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:dog_share/provider/auth_provider.dart' as custom_auth_provider;
+import 'package:go_router/go_router.dart';
 
-import '../screens_export.dart';
-
-class HomeScreen extends StatelessWidget  {
-
+class HomeScreen extends StatefulWidget {
   static const String name = 'home_screen';
 
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final authProvider = Provider.of<custom_auth_provider.AuthProvider>(
+        context,
+        listen: false,
+      );
+      final uid = FirebaseAuth.instance.currentUser?.uid;
+
+      if (uid != null) {
+        await authProvider.fetchAliasFromFirestore(uid);
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // Se obtiene el color primario del tema actual
+
+    final alias = context.watch<custom_auth_provider.AuthProvider>().alias;
     final Color color = Theme.of(context).colorScheme.primary;
-    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
-      appBar: AppBarView(color: color, themeProvider: themeProvider),
-      body: Column(
-        children: [
-      _ImageView(),
-      AuthSwitcher(),
-        ],
+      appBar: AppBar(
+  title: Row(
+    children: [
+      _ImageCircleAvatar(),
+      SizedBox(width: 15),
+      _TextAlias(alias: alias, color: color),
+    ],
+  ),
+  backgroundColor: color,
+  actions: [
+    _PopUpMenuAppBar(),
+  ],
+),
+      body: Center(
+        child: Text(
+          '¡Disfruta de DogShare!',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: color,
+          ),
+        ),
       ),
     );
   }
 }
 
-/// Widget que representa la imagen de fondo
-class _ImageView extends StatelessWidget {
-  const _ImageView();
+class _PopUpMenuAppBar extends StatelessWidget {
+  const _PopUpMenuAppBar();
 
   @override
   Widget build(BuildContext context) {
+    return PopupMenuButton(
+      onSelected: (value) {
+        if (value == 'logout') {
+          FirebaseAuth.instance.signOut();
+          context.go('/login_screen');
+        } else if (value == 'profile') {
+          // Navega a perfil
+        } else if (value == 'settings') {
+          // Navega a ajustes
+        }
+      },
+      icon: Icon(Icons.more_vert, color: Colors.white),
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+        PopupMenuItem<String>(
+          value: 'profile',
+          child: Text('Perfil'),
+        ),
+        PopupMenuItem<String>(
+          value: 'settings',
+          child: Text('Ajustes'),
+        ),
+        PopupMenuItem<String>(
+          value: 'logout',
+          child: Text('Cerrar sesión'),
+        ),
+      ],
+    );
+  }
+}
 
-    final Color color = Theme.of(context).colorScheme.primary;
+class _TextAlias extends StatelessWidget {
+  const _TextAlias({
+    required this.alias,
+    required this.color,
+  });
 
-    return Transform.translate(
-      offset: const Offset(0, -60), // mueve hacia arriba 30px
-      child: Column(
-        children: [
-          ClipRRect( // Recorta la imagen para que tenga bordes redondeados
-            borderRadius: BorderRadius.circular(20,), // opcional, para bordes redondeados
-            child: Image.asset(
-              'assets/images/1.png',
-              width: 600,
-              height: 550,
-              fit:BoxFit.cover, // Ajusta la imagen recortando los bordes si es necesario
-            ),
-          ),
+  final String? alias;
+  final Color color;
 
-          Padding(
-            padding: const EdgeInsets.only(right: 15 , left: 15),
-            child: Text('Una app para compartir con tus perros',
-            textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-                color: color
-              ),
-            ),
-          ),
-        ],
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'Hola  🐾 ${alias != null ? '  $alias' : ''}',
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: Colors.white
       ),
+    );
+  }
+}
+
+class _ImageCircleAvatar extends StatelessWidget {
+  const _ImageCircleAvatar();
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: 20,
+      backgroundColor: Colors.white,
+      backgroundImage: AssetImage('assets/images/3.jpeg'),
     );
   }
 }

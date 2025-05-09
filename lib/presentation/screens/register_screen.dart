@@ -43,7 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (registerProvider == true) {
       if(mounted) {
-      context.go('/login');
+      context.go('/login_screen');
       }
     } else {
       //Error
@@ -150,7 +150,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 10),
                     TextButton(
                       onPressed: () {
-                        context.go('/login');
+                        context.go('/login_screen');
                       },
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.blue,

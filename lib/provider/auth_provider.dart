@@ -8,14 +8,18 @@ class AuthProvider extends ChangeNotifier {
 
   String _email = '';
   String _errorMessage = '';
+  String? _alias;
 
   static const String _emailRegex = r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
   static const String _passwordRegex = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$';
+
+
 
   String get email => _email;
   bool get isLoggedIn =>_auth.currentUser != null; // Verifica si el usuario está autenticado
   String get errorMessage => _errorMessage;
   User? get currentUser => _auth.currentUser;
+  String? get alias => _alias;
 
 
   // Método para autenticar al usuario
@@ -173,4 +177,16 @@ class AuthProvider extends ChangeNotifier {
       return false;
     }
   }
+
+  Future<void> fetchAliasFromFirestore(String uid) async {
+    try {
+      final doc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      _alias = doc.data()?['alias'];
+      notifyListeners();
+    } catch (e) {
+      print('Error al obtener alias: $e');
+    }
+  }
+
+  
 }

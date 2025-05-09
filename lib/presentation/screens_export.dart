@@ -6,9 +6,10 @@
 
 //SCREENS
 export 'package:dog_share/presentation/widgets/app_bar.dart';
-export 'package:dog_share/presentation/screens/home_screen.dart';
+export 'package:dog_share/presentation/screens/welcome_screen.dart';
 export 'package:dog_share/presentation/screens/login_screen.dart';
 export 'package:dog_share/presentation/screens/register_screen.dart';
+export 'package:dog_share/presentation/screens/home_screen.dart';
 //WIDGETS
 export 'package:dog_share/presentation/widgets/auth_switcher.dart';
 //PROVIDERS

@@ -27,9 +27,9 @@ class AuthSwitcherState extends State<AuthSwitcher> {
             });
             // Navegar a la pantalla de login o registro dependiendo del índice seleccionado
             if (index == 0) {
-              context.go('/login'); // Con .go no permite volver a la pantalla anterior
+              context.go('/login_screen'); // Con .go no permite volver a la pantalla anterior
             } else {
-              context.go('/register');
+              context.go('/register_screen'); // Con .go no permite volver a la pantalla anterior
             }
           },
           borderRadius: BorderRadius.circular(12),

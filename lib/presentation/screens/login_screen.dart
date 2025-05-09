@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 import '../../presentation/screens_export.dart';
 
 
-
-
 class LoginScreen extends StatefulWidget {
   // Nombre de la ruta para la pantalla de inicio de sesión
   static const String name = 'login_screen';
@@ -43,8 +41,9 @@ class _LoginScreenState extends State<LoginScreen> {
     // Con esta variable, llamo al metodo login() del provider
     final loginProvider = await authProvider.login(email, password);
 
+    if (!mounted) return; // Poner mounted para evitar que se ejecute el código si el widget ya no está montado
     if (loginProvider == true) {
-      // Si el inicio de sesión es exitoso, navega a la pantalla de inicio
+      context.go('/home_screen');
     } else {
       //Error 
       final errorMessage = authProvider.errorMessage;
@@ -158,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        context.go('/register');
+                        context.go('/register_screen');
                       },
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.blue,

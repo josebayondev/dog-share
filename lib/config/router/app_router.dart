@@ -8,20 +8,26 @@ final appRouter = GoRouter(
     GoRoute(
       // La ruta inicial de la aplicación
       path: '/',
-      name: HomeScreen.name,
-      builder: (context, state) => HomeScreen(),
+      name: WelcomeScreen.name,
+      builder: (context, state) => WelcomeScreen(),
     ),
     GoRoute(
-      // La ruta inicial de la aplicación
-      path: '/login',
+      // Ruta para la pantalla de inicio de sesión
+      path: '/login_screen',
       name: LoginScreen.name,
       builder: (context, state) => LoginScreen(),
     ),
     GoRoute(
-      // La ruta inicial de la aplicación
-      path: '/register',
+      // Ruta para la pantalla de registro
+      path: '/register_screen',
       name: RegisterScreen.name,
       builder: (context, state) => RegisterScreen(),
+    ),
+    GoRoute(
+      // Ruta para la pantalla de inicio
+      path: '/home_screen',
+      name: HomeScreen.name,
+      builder: (context, state) => HomeScreen(),
     ),
       ],
 );
