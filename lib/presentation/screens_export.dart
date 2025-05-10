@@ -12,6 +12,7 @@ export 'package:dog_share/presentation/screens/register_screen.dart';
 export 'package:dog_share/presentation/screens/home_screen.dart';
 //WIDGETS
 export 'package:dog_share/presentation/widgets/auth_switcher.dart';
+import 'package:dog_share/presentation/widgets/app_bar_home.dart';
 //PROVIDERS
 export 'package:dog_share/provider/theme_provider.dart';
 export 'package:dog_share/provider/auth_provider.dart';
