@@ -1,43 +1,63 @@
+import 'package:dog_share/config/data/friends_data.dart';
 import 'package:flutter/material.dart';
 
+
+// ignore: use_key_in_widget_constructors
 class Friends extends StatelessWidget {
-  
-  final List<Map<String, String>> friends = [
-    {
-      'name': 'Filippo',
-      'image': 'assets/images/1.png',
-    },
-    {
-      'name': 'Milán',
-      'image': 'assets/images/2.png',
-    },
-    {
-      'name': 'Flippo y Milán',
-      'image': 'assets/images/3.jpeg',
-    },
-    {
-      'name': 'Boby',
-      'image': 'assets/images/boby.jpg',
-    },
-    {
-      'name': 'Boby',
-      'image': 'assets/images/boby.jpg',
-    },
-    {
-      'name': 'Boby',
-      'image': 'assets/images/boby.jpg',
-    },
-    {
-      'name': 'Boby',
-      'image': 'assets/images/boby.jpg',
-    },
-    // Añade más si quieres
-  ];
 
   @override
   Widget build(BuildContext context) {
 
     final Color color = Theme.of(context).colorScheme.primary;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 16),
+        _TextFriends(color: color),
+        SizedBox(height: 16),
+        _SizedBoxListFriends(friends: friendsData, color: color),
+      ],
+    );
+  }
+}
+
+class _TextFriends extends StatelessWidget {
+  const _TextFriends({
+    required this.color,
+  });
+
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Text(
+        'Amigos 🐶',
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: color,
+        ),
+      ),
+    );
+  }
+}
+
+class _SizedBoxListFriends extends StatelessWidget {
+
+  final List<Map<String, String>> friends;
+  final Color color;
+
+  const _SizedBoxListFriends({
+    required this.friends,
+    required this.color,
+  });
+
+
+
+  @override
+  Widget build(BuildContext context) {
     return SizedBox(
       height: 100,
       child: ListView.separated(

@@ -2,9 +2,8 @@ import 'package:dog_share/provider/auth_provider.dart' as custom_auth_provider;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../screens_export.dart';
-import '../widgets/app_bar_main.dart';
+import '../widgets/appbar/app_bar_main.dart';
 
 class MainScreen extends StatefulWidget {
   static const String name = 'main_screen';
@@ -80,7 +79,7 @@ class _MainScreenState extends State<MainScreen> {
         onTap: _onTap,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),
-          BottomNavigationBarItem(icon: Icon(Icons.group), label: 'Comunidad'),
+          BottomNavigationBarItem(icon: Icon(Icons.pets), label: 'Comunidad'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Perfil'),
         ],
       ),
