@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (!mounted) return; // Poner mounted para evitar que se ejecute el código si el widget ya no está montado
     if (loginProvider == true) {
-      context.go('/home_screen');
+      context.go('/main_screen'); // Navega a la pantalla principal
     } else {
       //Error 
       final errorMessage = authProvider.errorMessage;
