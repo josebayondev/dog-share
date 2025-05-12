@@ -18,6 +18,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _aliasController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  
 
   // Gracias al dispose() se liberan los recursos utilizados por los controladores
   // Esto es importante para evitar fugas de memoria
@@ -36,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final alias = _aliasController.text.trim();
     final email = _emailController.text.trim();
-    final password = _passwordController.text.trim();
+    final password = _passwordController.text.trim(); //Imagen por defecto
 
     // Con esta variable, llamo al metodo login() del provider
     final registerProvider = await authProvider.register(email, password, alias);

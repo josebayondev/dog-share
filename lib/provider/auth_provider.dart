@@ -15,6 +15,8 @@ class AuthProvider extends ChangeNotifier {
 
 
 
+
+
   String get email => _email;
   bool get isLoggedIn =>_auth.currentUser != null; // Verifica si el usuario está autenticado
   String get errorMessage => _errorMessage;
@@ -175,9 +177,10 @@ class AuthProvider extends ChangeNotifier {
       _errorMessage = 'Ocurrió un error inesperado';
       notifyListeners();
       return false;
-    }
+           }
   }
 
+  // Metodo para obtener el alias
   Future<void> fetchAliasFromFirestore(String uid) async {
     try {
       final doc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
@@ -187,6 +190,5 @@ class AuthProvider extends ChangeNotifier {
       print('Error al obtener alias: $e');
     }
   }
-
   
 }

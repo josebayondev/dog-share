@@ -35,7 +35,7 @@ final appRouter = GoRouter(
     ),
     GoRoute(
       // Ruta para la pantalla de inicio
-      path: '/commumity_screen',
+      path: '/community_screen',
       name: CommunityScreen.name,
       builder: (context, state) => CommunityScreen(),
     ),
