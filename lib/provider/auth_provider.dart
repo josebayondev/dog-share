@@ -190,5 +190,4 @@ class AuthProvider extends ChangeNotifier {
       print('Error al obtener alias: $e');
     }
   }
-  
 }

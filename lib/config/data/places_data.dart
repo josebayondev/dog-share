@@ -1,5 +1,6 @@
 
 
+// Lista de lugares con nombre, imagen y descripción
 final List<Map<String, String>> placesData = [
   {
   'name': 'Parque Juan Carlos I',

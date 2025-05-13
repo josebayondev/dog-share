@@ -4,10 +4,12 @@ import 'package:dog_share/config/data/places_data.dart';
 import 'package:go_router/go_router.dart';
 
 class DogPlaces extends StatelessWidget {
+
   const DogPlaces({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     final Color color = Theme.of(context).colorScheme.primary;
 
     return Column(
@@ -73,7 +75,7 @@ class _SizedBoxPlaces extends StatelessWidget {
             child: Card(
               elevation: 8,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Container(
                 width: 230,
