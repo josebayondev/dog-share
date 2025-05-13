@@ -22,11 +22,14 @@ class Friends extends StatelessWidget {
 }
 
 class _TextFriends extends StatelessWidget {
+
+  final Color color;
+
   const _TextFriends({
     required this.color,
   });
 
-  final Color color;
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,24 +70,29 @@ class _SizedBoxListFriends extends StatelessWidget {
         separatorBuilder: (_, __) => SizedBox(width: 12),
         itemBuilder: (context, index) {
           final friend = friends[index];
-          return Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: color, width: 2),
+          return GestureDetector(
+            onTap: () {
+              print('Navegando a la pantalla del perfil de ${friend['name']}');
+            },
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: color, width: 2),
+                  ),
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundImage: AssetImage(friend['image']!),
+                  ),
                 ),
-                child: CircleAvatar(
-                  radius: 30,
-                  backgroundImage: AssetImage(friend['image']!),
+                SizedBox(height: 6),
+                Text(
+                  friend['name']!,
+                  style: TextStyle(fontSize: 12),
                 ),
-              ),
-              SizedBox(height: 6),
-              Text(
-                friend['name']!,
-                style: TextStyle(fontSize: 12),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),

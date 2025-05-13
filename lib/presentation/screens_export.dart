@@ -13,9 +13,11 @@ export 'package:dog_share/presentation/screens/home_screen.dart';
 export 'package:dog_share/presentation/screens/community_screen.dart';
 export 'package:dog_share/presentation/screens/profile_screen.dart';
 export 'package:dog_share/presentation/screens/main_screen.dart';
+export 'package:dog_share/presentation/screens/dog_places_screen.dart';
+
 //WIDGETS
 export 'package:dog_share/presentation/widgets/auth_switcher.dart';
-export 'package:dog_share/presentation/widgets/home/dog_places.dart';
+export 'package:dog_share/presentation/widgets/home/dog_places_widget.dart';
 export 'package:dog_share/presentation/widgets/home/friends_widget.dart';
 export 'package:dog_share/presentation/widgets/home/dog_store.dart';
 export 'package:dog_share/presentation/widgets/home/veterinarian.dart';

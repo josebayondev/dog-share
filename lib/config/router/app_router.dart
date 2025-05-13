@@ -1,3 +1,4 @@
+import 'package:dog_share/presentation/screens/dog_places_screen.dart';
 import 'package:go_router/go_router.dart';
 import '../../presentation/screens_export.dart';
 
@@ -44,6 +45,12 @@ final appRouter = GoRouter(
       path: '/profile_screen',
       name: ProfileScreen.name,
       builder: (context, state) => ProfileScreen(),
+    ),
+    GoRoute(
+      // Ruta para la pantalla de inicio
+      path: '/dog_places_screen',
+      name: DogPlacesScreen.name,
+      builder: (context, state) => DogPlacesScreen(),
     ),
   ],
 );

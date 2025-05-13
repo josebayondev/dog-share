@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
+// Esta clase se encarga de interactuar con la base de datos de Firestore para obtener información sobre los usuarios.
 class UserService {
   final FirebaseFirestore _db = FirebaseFirestore.instance; // Variable 
 
