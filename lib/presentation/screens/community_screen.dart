@@ -18,7 +18,6 @@ class CommunityScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentUser = FirebaseAuth.instance.currentUser;
-    final Color color = Theme.of(context).colorScheme.primary;
 
     if (currentUser == null) {
       return const Center(child: Text("No has iniciado sesión"));
