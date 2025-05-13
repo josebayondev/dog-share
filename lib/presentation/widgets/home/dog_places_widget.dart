@@ -11,10 +11,35 @@ class DogPlaces extends StatelessWidget {
     final Color color = Theme.of(context).colorScheme.primary;
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+         const SizedBox(height: 5),
+        _TextPlaces(color: color),
+        const SizedBox(height: 5),
         _SizedBoxPlaces(dogPlaces: placesData, color: color,),
         SizedBox(height: 10),
       ],
+    );
+  }
+}
+
+class _TextPlaces extends StatelessWidget {
+  const _TextPlaces({
+    required this.color,
+  });
+
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, ),
+      child: Text('Parques 📍',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: color,
+          )),
     );
   }
 }

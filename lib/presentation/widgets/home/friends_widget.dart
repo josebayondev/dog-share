@@ -12,9 +12,9 @@ class Friends extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         _TextFriends(color: color),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         _SizedBoxListFriends(friends: friendsData, color: color),
       ],
     );

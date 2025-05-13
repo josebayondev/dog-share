@@ -44,8 +44,6 @@ class CommunityScreen extends StatelessWidget {
               final user = users[index];
               final alias = user['alias'] ?? 'Sin nombre';
               final imageUrl = user['imageUrl']; 
-              
-              
               return ListTile(
                 onTap: () => print('Pulsaste el perfil de [$alias]'),
                 leading: imageUrl != null
