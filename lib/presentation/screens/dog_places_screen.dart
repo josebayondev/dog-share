@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../screens_export.dart';
+
 class DogPlacesScreen extends StatelessWidget {
 
   static const String name = 'dog_places_screen';
@@ -18,7 +20,11 @@ class DogPlacesScreen extends StatelessWidget {
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
-      body: Center(child: Text('Hola, soy la pagina de Parques'),)
+      body: Column(
+        children: [
+          const SwitcherPlaces(),
+        ]
+      )
     );
   }
 }
