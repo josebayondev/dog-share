@@ -12,6 +12,15 @@
 .swiftpm/
 migrate_working_dir/
 
+
+# Firebase generated file (si no quieres subirlo)
+lib/firebase_options.dart
+
+# Plataformas nativas (si quieres ignorar macOS, Linux, iOS)
+macos/
+linux/
+ios/
+
 # IntelliJ related
 *.iml
 *.ipr

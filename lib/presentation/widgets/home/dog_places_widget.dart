@@ -86,7 +86,7 @@ class _SizedBoxPlaces extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.asset(
-                        place['image']!, // Por ejemplo: 'assets/images/parque1.jpg'
+                        place['image'] ?? 'assets/images/default_place.jpg',
                         height: 100,
                         width: double.infinity,
                         fit: BoxFit.cover,
@@ -94,7 +94,7 @@ class _SizedBoxPlaces extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      place['name']!,
+                      place['name'] ?? 'Lugar sin nombre',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
