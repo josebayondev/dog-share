@@ -18,12 +18,15 @@ class _SwitcherPlacesState extends State<SwitcherPlaces> {
 
   @override
   Widget build(BuildContext context) {
+
     final Color color = Theme.of(context).colorScheme.primary;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      
       children: [
         // Botones en fila separados
+        const SizedBox(height: 10),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(
@@ -53,7 +56,7 @@ class _SwitcherPlacesState extends State<SwitcherPlaces> {
             }),
           ),
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 5),
         const Divider(thickness: 1),
         const SizedBox(height: 10),
 
