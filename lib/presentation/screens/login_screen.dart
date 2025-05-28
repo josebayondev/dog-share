@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../presentation/screens_export.dart';
 
-
 class LoginScreen extends StatefulWidget {
   // Nombre de la ruta para la pantalla de inicio de sesión
   static const String name = 'login_screen';
@@ -15,7 +14,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   // Controladores para los campos de texto de email y contraseña
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -32,7 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
   // Método para iniciar sesión
   // Este método se llama cuando el usuario presiona el botón de inicio de sesión
   void login() async {
-
     // Verifica si el formulario es válido
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final email = _emailController.text.trim();
@@ -41,27 +38,35 @@ class _LoginScreenState extends State<LoginScreen> {
     // Con esta variable, llamo al metodo login() del provider
     final loginProvider = await authProvider.login(email, password);
 
-    if (!mounted) return; // Poner mounted para evitar que se ejecute el código si el widget ya no está montado
+    if (!mounted)
+      return; // Poner mounted para evitar que se ejecute el código si el widget ya no está montado
     if (loginProvider == true) {
       context.go('/main_screen'); // Navega a la pantalla principal
     } else {
-      //Error 
+      //Error
       final errorMessage = authProvider.errorMessage;
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMessage)));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(errorMessage)));
       }
     }
   }
 
+  bool _obscureText = true;
+
+  void _toggleVisibility() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    
     final Color color = Theme.of(context).colorScheme.primary;
-    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
-      appBar: AppBarView(color: color, themeProvider: themeProvider),
+      appBar: AppBarView(color: color),
       body: Stack(
         children: [
           Positioned(
@@ -106,9 +111,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       icon: Icons.lock,
                       labelText: 'Password',
                       hintText: 'Enter your password',
-                      obscureText: true,
+                      obscureText: _obscureText,
                       textInputAction: TextInputAction.done,
                       keyboardType: TextInputType.visiblePassword,
+                      suffixIcon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
+                        color: color,
+                      ),
+                      onSuffixIconPressed: _toggleVisibility,
                     ),
                     const SizedBox(height: 10),
                     SizedBox(
@@ -191,6 +201,8 @@ class _TextFormField extends StatelessWidget {
   final bool? obscureText;
   final TextInputAction? textInputAction;
   final TextInputType? keyboardType;
+  final Widget? suffixIcon;
+  final VoidCallback? onSuffixIconPressed;
 
   const _TextFormField({
     required this.controller,
@@ -200,12 +212,13 @@ class _TextFormField extends StatelessWidget {
     this.obscureText,
     this.textInputAction,
     this.keyboardType,
+    this.suffixIcon,
+    this.onSuffixIconPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
@@ -221,20 +234,21 @@ class _TextFormField extends StatelessWidget {
           labelText: labelText,
           hintText: hintText,
           filled: true,
-          fillColor:
-              isDark
-                  ? Colors.grey.withOpacity(0.1)
-                  : Colors.grey.withOpacity(0.05),
+          fillColor: Colors.grey.withOpacity(0.05),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 20,
             vertical: 18,
           ),
-          labelStyle: TextStyle(
-            color: isDark ? Colors.grey[300] : Colors.grey[600],
-          ),
-          hintStyle: TextStyle(
-            color: isDark ? Colors.grey[400] : Colors.grey[500],
-          ),
+          suffixIcon:
+              suffixIcon != null
+                  ? GestureDetector(
+                    onTap: onSuffixIconPressed,
+                    child: suffixIcon,
+                  )
+                  : null,
+          suffixIconColor: theme.primaryColor,
+          labelStyle: TextStyle(color: Colors.grey[600]),
+          hintStyle: TextStyle(color: Colors.grey[500]),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: BorderSide.none,

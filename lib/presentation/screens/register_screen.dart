@@ -61,10 +61,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
 
     final Color color = Theme.of(context).colorScheme.primary;
-    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
-      appBar: AppBarView(color: color, themeProvider: themeProvider),
+      appBar: AppBarView(color: color),
       body: Stack(
         children: [
           Positioned(

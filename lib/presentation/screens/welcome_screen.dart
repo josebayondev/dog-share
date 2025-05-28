@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../screens_export.dart';
 
 class WelcomeScreen extends StatelessWidget  {
@@ -12,10 +11,9 @@ class WelcomeScreen extends StatelessWidget  {
   Widget build(BuildContext context) {
     // Se obtiene el color primario del tema actual
     final Color color = Theme.of(context).colorScheme.primary;
-    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
-      appBar: AppBarView(color: color, themeProvider: themeProvider),
+      appBar: AppBarView(color: color),
       body: Column(
         children: [
       _ImageView(),
