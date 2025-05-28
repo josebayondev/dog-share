@@ -1,11 +1,14 @@
-import 'package:dog_share/presentation/widgets/map.dart';
+
 import 'package:flutter/material.dart';
+
+import '../../screens_export.dart';
 
 class VeterinarianWidget extends StatelessWidget {
   const VeterinarianWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Obtengo el color primario del tema actual
     final color = Theme.of(context).colorScheme.primary;
 
     return Column(

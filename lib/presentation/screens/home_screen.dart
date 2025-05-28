@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //Muestro el widget de amigos
+          //Muestro el widget de amigos, lugares, y veterinarios
           Friends(),
           Divider(),
           DogPlaces(),

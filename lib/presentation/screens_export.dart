@@ -21,6 +21,7 @@ export 'package:dog_share/presentation/widgets/home/dog_places_widget.dart';
 export 'package:dog_share/presentation/widgets/home/friends_widget.dart';
 export 'package:dog_share/presentation/widgets/home/veterinarian.dart';
 export 'package:dog_share/presentation/widgets/places/switcher_places.dart';
+export 'package:dog_share/presentation/widgets/veterinarian_map.dart';
 //PROVIDERS
 export 'package:dog_share/provider/theme_provider.dart';
 export 'package:dog_share/provider/auth_provider.dart';
