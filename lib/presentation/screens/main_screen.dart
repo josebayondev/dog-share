@@ -74,8 +74,9 @@ class _MainScreenState extends State<MainScreen> {
       child: _screens[_currentIndex]),
       // Se utiliza para navegar entre las diferentes pantallas de la aplicación
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: color,
         currentIndex: _currentIndex,
-        selectedItemColor: color,
+        selectedItemColor: Colors.white,
         onTap: _onTap,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Inicio'),

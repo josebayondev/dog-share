@@ -19,7 +19,6 @@ export 'package:dog_share/presentation/screens/dog_places_screen.dart';
 export 'package:dog_share/presentation/widgets/auth_switcher.dart';
 export 'package:dog_share/presentation/widgets/home/dog_places_widget.dart';
 export 'package:dog_share/presentation/widgets/home/friends_widget.dart';
-export 'package:dog_share/presentation/widgets/home/dog_store.dart';
 export 'package:dog_share/presentation/widgets/home/veterinarian.dart';
 export 'package:dog_share/presentation/widgets/places/switcher_places.dart';
 //PROVIDERS

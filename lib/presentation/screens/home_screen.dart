@@ -14,18 +14,18 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        //Muestro el widget de amigos
-        Friends(),
-        Divider(),
-        DogPlaces(),
-        Divider(),
-        DogStore(),
-        Divider(),
-        VeterinarianWidget(),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          //Muestro el widget de amigos
+          Friends(),
+          Divider(),
+          DogPlaces(),
+          Divider(),
+          VeterinarianWidget(),
+        ],
+      ),
     );
   }
 }
