@@ -38,8 +38,9 @@ class _LoginScreenState extends State<LoginScreen> {
     // Con esta variable, llamo al metodo login() del provider
     final loginProvider = await authProvider.login(email, password);
 
-    if (!mounted)
+    if (!mounted) {
       return; // Poner mounted para evitar que se ejecute el código si el widget ya no está montado
+    }
     if (loginProvider == true) {
       context.go('/main_screen'); // Navega a la pantalla principal
     } else {

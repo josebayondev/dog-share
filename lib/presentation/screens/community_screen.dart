@@ -10,12 +10,14 @@ class CommunityScreen extends StatelessWidget {
   // Método para obtener el stream de todos los usuarios excepto el actual
   // Stream para obtener todos los usuarios de Firestore recargando los datos cada vez que hay un cambio en la base de datos
   Stream<List<Map<String, dynamic>>> getAllUsersStreamExcept(String currentUid) {
-    return FirebaseFirestore.instance
-        .collection('users')
-        .where('uid', isNotEqualTo: currentUid)
-        .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) => doc.data()).toList());
-  }
+  return FirebaseFirestore.instance
+      .collection('users')
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+          .map((doc) => doc.data())
+          .where((user) => user['uid'] != currentUid)
+          .toList());
+}
 
   @override
   Widget build(BuildContext context) {
